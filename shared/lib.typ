@@ -394,7 +394,7 @@
       ..args.named(),
       [
         #set text(fill: base-color)
-        *#upper(identifier) #if numbered { [#number] } #if name != none { [(#name)] } *]
+        *#upper(title) #if numbered { [#number] } #if name != none { [(#name)] } *]
         + body,
     )
   },
