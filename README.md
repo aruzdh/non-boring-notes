@@ -14,15 +14,11 @@ while providing professional-grade typesetting.
 > Requires a Zsh environment and [Typst](https://github.com/typst/typst)
 > installed.
 
-First, clone this repository and, in the same location, execute the following
-commands to make it available from anywhere:
+First, clone this repository, navigate inside it, and execute the following
+command to make it available from anywhere:
 
 ```bash
-chmod +x non_boring_notes.zsh
-```
-
-```bash
-sudo ln -s "$(pwd)/non_boring_notes.zsh" /usr/local/bin/non-boring-notes
+./install.zsh
 ```
 
 Now, you can create a new project directory instantly from any location:
