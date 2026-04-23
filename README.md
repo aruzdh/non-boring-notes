@@ -11,7 +11,8 @@ while providing professional-grade typesetting.
 ### 1. Initialize Your Project
 
 > [!IMPORTANT]
-> Requires a Zsh environment and Typst installed.
+> Requires a Zsh environment and [Typst](https://github.com/typst/typst)
+> installed.
 
 First, clone this repository and, in the same location, execute the following
 commands to make it available from anywhere:
