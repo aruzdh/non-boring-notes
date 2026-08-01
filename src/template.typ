@@ -243,6 +243,7 @@
 
   body
 
+  show (heading.where(body: [#get_translation(translated_terms.references)])): set heading(numbering: none)
   if bibliography_file != none {
     align(center)[#v(0.5em) * — #sym.space.quad —  #sym.space.quad —  * #v(0.5em)]
     bibliography(bibliography_file, title: [#get_translation(translated_terms.references)], style: bibstyle)
