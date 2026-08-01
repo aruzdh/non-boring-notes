@@ -45,7 +45,8 @@ Or copy this minimal template into your existing document:
 Start writing your notes here...
 ```
 
----
+If you want some inspiration, an example using all the features can be found in
+[examples/showcase.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/examples/showcase.typ).
 
 ## Configuration
 
@@ -66,13 +67,14 @@ Configure the `template` function at the top of your document to suit your needs
 | `h1_prefix` | `string` | Prefix for top-level headings (e.g., `"lecture"`). |
 | `text_lang` | `string` | Language code: `"en"` (English) or `"es"` (Spanish). |
 
----
+All the parameters, alongside their default values, can be found in the `template`
+function in [src/template.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/template.typ).
 
 ## Features
 
 ### Theorem-like Environments
 
-Includes pre-styled, color-coded blocks out of the box:
+Includes pre-styled, color-coded boxes out of the box:
 
 ```typst
 #definition("Metric Space")[
@@ -91,13 +93,15 @@ Includes pre-styled, color-coded blocks out of the box:
 Some available environments include: `theorem`, `lemma`, `corollary`, `proposition`,
 `hypothesis`, `definition`, `proof`, `important`, `tip`, and `exercise`.
 
+All the theorem-like boxes can be found in the in [src/boxes.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/boxes.typ)
+
 ### Multi-language Support
 
 Switch between English and Spanish seamlessly. All environment labels (e.g.,
 *Theorem* vs. *Teorema*) and headers (e.g., *Contents* vs. *Contenido*) update
 automatically based on `text_lang`.
 
----
+The full list of labels can be found in [src/translated_terms.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/translated_terms.typ)
 
 ## Project Structure
 
