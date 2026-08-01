@@ -1,114 +1,105 @@
 # Non-boring notes
 
 A modular, colorful, and highly customizable Typst template for academic
-documentation, lecture notes, and assignments. Designed to be simple to use
-while providing professional-grade typesetting.
+documentation, lecture notes, and assignments. Designed to be simple to use,
+yet powerful.
 
-![Template Preview](./example.jpg)
+![Template Preview](./thumbnail.png)
 
 ## Quick Start
 
-### 1. Initialize Your Project
-
-> [!IMPORTANT]
-> Requires a Zsh environment and [Typst](https://github.com/typst/typst)
-> installed.
-
-First, clone this repository, navigate inside it, and execute the following
-command to make it available from anywhere:
+You can initialize a project directly from the CLI:
 
 ```bash
-./install.zsh
+typst init @preview/non-boring-notes
 ```
 
-Now, you can create a new project directory instantly from any location:
+Or copy this minimal template into your existing document:
 
-```bash
-non-boring-notes <your-project-name>
+```typst
+#import "@preview/non-boring-notes:0.1.0": *
+
+#show: template.with(
+  title: [Document Title],
+  subtitle: [Optional Subtitle],
+  short_title: "Notes",
+  description: [Document description],
+  abstract: [
+    Your abstract or brief summary goes here.
+  ],
+  creation_date: datetime.today(),
+  authors: (
+    (
+      name: "Your Name",
+      link: "[https://example.com](https://example.com)",
+    ),
+  ),
+  paper_size: "us-letter",
+  cols: 1,
+  h1_prefix: "lecture",
+  text_lang: "en",
+)
+
+= Introduction
+
+Start writing your notes here...
 ```
-
-You'll be prompted to choose between:
-
-- `Minimal`: A clean slate with just the essentials (title, subtitle, and body).
-- `Full`: A comprehensive setup featuring a Table of Contents, author list,
-  numbered headers, and example theorem environments.
-
-Both styles are fully customizable to fit your specific workflow.
-
-### 2. Live Preview
-
-Navigate to your project directory and start the Typst compiler with watch mode:
-
-```bash
-cd <your-project-name>
-typst watch main.typ
-```
-
-> [!TIP]
-> If you use Neovim, I highly recommend the
-> [Typst Preview](https://github.com/chomosuke/typst-preview.nvim) plugin for a
-> seamless writing experience
 
 ---
 
 ## Configuration
 
-Configure the `template` function in your `main.typ` to suit your needs. Here are
-the most common parameters:
+Configure the `template` function at the top of your document to suit your needs:
 
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `title` | `content` | `"Lecture Notes"` | Main title of the document. |
-| `subtitle` | `content` | `none` | Optional subtitle. |
-| `authors` | `array` | `()` | List of `(name: "", link: "")` dictionaries. |
-| `accent` | `color` | `"#262626"` | Primary accent color for headers and links. |
-| `text_lang` | `string` | `"en"` | Language: `"en"` (English) or `"es"` (Spanish). |
-| `toc` | `bool` | `true` | Whether to show the Table of Contents. |
-| `paper_size` | `string` | `"a4"` | e.g., `"a4"`, `"us-letter"`. |
-| `cols` | `int` | `1` | Number of columns in the document. |
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `title` | `content` | Title of the document. |
+| `subtitle` | `content` | Subtitle. |
+| `short_title` | `content` | Used in header. |
+| `authors` | `array` | Array of `(name: "", link: "")` dictionaries. |
+| `creation_date` | `datetime` | Document creation date. |
+| `abstract` | `content` | Brief document abstract or summary. |
+| `description` | `content` | Brief document description. |
+| `accent` | `color` | Primary accent color for headers and links. |
+| `paper_size` | `string` | Page format (e.g., `"a4"`, `"us-letter"`). |
+| `cols` | `integer` | Number of columns in the document layout. |
+| `h1_prefix` | `string` | Prefix for top-level headings (e.g., `"lecture"`). |
+| `text_lang` | `string` | Language code: `"en"` (English) or `"es"` (Spanish). |
 
 ---
 
 ## Features
 
-### Modular Content System
+### Theorem-like Environments
 
-Organize your notes into logical units. The template encourages a structure
-where `main.typ` includes files from `content/collections/`, which in turn
-include files from `content/entries/`.
+Includes pre-styled, color-coded blocks out of the box:
 
-### Beautiful Environments
+```typst
+#definition("Metric Space")[
+  A metric space is a set $M$ together with a metric $d$.
+]
 
-Includes pre-styled, color-coded blocks for various purposes. Use them as
-`#theorem[...]`, `#definition[...]`, etc.
+#theorem("Banach Fixed-Point Theorem")[
+  Let $(X, d)$ be a complete metric space...
+]
 
-- **Logical Reasoning**: `theorem`, `lemma`, `corollary`, `proposition`, `hypothesis`
-- **Fundamentals**: `definition`
-- **Applied Practice**: `example`, `exercise`
-- **Callouts & Notes**: `note`, `attention`, `important`, `tip`, `remark`
-- **Formatting Utilities**: `proof`, `quote`, `indent`, `mathbox`, `horizontalrule`
+#proof[
+  The proof proceeds by contraction...
+]
+```
+
+Some available environments include: `theorem`, `lemma`, `corollary`, `proposition`,
+`hypothesis`, `definition`, `proof`, `important`, `tip`, and `exercise`.
 
 ### Multi-language Support
 
-Switch between English and Spanish seamlessly. All environment labels
-(e.g., "Theorem" vs. "Teorema") and document headers (e.g., "Contents" vs.
-"Contenido") update automatically based on the `text_lang` parameter.
+Switch between English and Spanish seamlessly. All environment labels (e.g.,
+*Theorem* vs. *Teorema*) and headers (e.g., *Contents* vs. *Contenido*) update
+automatically based on `text_lang`.
 
 ---
 
 ## Project Structure
 
-The initialization script sets up a flat and organized workspace where styling
-and localization are decoupled from your content:
-
-```text
-├── main.typ             # Primary entry point & configuration
-├── lib.typ              # Core definitions
-├── translated_terms.typ # Localization dictionary
-├── .typst_main_file     # Internal marker for project identification
-├── content/             # Your document's source text
-│   ├── collections/     # High-level organization (e.g., Chapters, Weeks)
-│   └── entries/         # Granular sections (e.g. Lectures)
-├── bibliography/        # BibTeX .bib files 
-└── assets/              # Images and external resources 
-```
+- `main.typ`: Entry point of your project.
+- `.typst_main_file`: Internal marker for project identification (mainly for nvim).

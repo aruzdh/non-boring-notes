@@ -1,5 +1,28 @@
-#import "../../lib.typ": *
-#import "../../bibliography/bibliography.bib": *
+#import "@preview/non-boring-notes:0.1.0": *
+
+#show: template.with(
+  title: [Non-boring notes],
+  subtitle: [A clean and modular Typst template],
+  short_title: "Usual Notes",
+  description: [An usual description],
+  abstract: [
+    This template provides a robust structure for taking notes, whether they are for lectures,
+    chapters, or personal projects. It features color-coded environments, and a modular content
+    system.
+  ],
+  creation_date: datetime(year: 2025, month: 08, day: 11),
+  authors: (
+    (
+      name: "Aru",
+      link: "https://aruzdh.dev",
+    ),
+  ),
+  bibliography_file: path("/bibliography/bibliography.bib"),
+  paper_size: "us-letter",
+  cols: 1,
+  h1_prefix: "lecture",
+  text_lang: "en",
+)
 
 = Introduction to Modern Analysis
 
@@ -85,3 +108,4 @@ The template handles citations seamlessly. For instance, the foundations of line
 #tip[
   Use the Table of Contents to navigate quickly between your entries!
 ]
+
