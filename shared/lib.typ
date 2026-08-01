@@ -1,15 +1,13 @@
-// Imports
-// =============================================================
 #import "translated_terms.typ": *
-#import "@preview/showybox:2.0.3": showybox
+#import "@preview/showybox:2.0.4": showybox
 #import "@preview/ctheorems:1.1.3": thmenv, thmrules
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
+#import "@preview/codly:1.3.0": *
+#import "@preview/codly-languages:0.1.10": *
+#import "@preview/cetz:0.5.2"
+#import "@preview/unify:0.8.1": *
 
-// =============================================================
-// Template
-// =============================================================
 #let template(
-  // Metadata
   title: "Lecture Notes Title",
   short_title: none,
   subtitle: none,
@@ -18,39 +16,32 @@
   abstract: none,
   creation_date: none,
   updated_date: true,
-  // Document Layout
+
   paper_size: "a4",
   paper_color: "#ffffff",
   text_color: "#000000",
   landscape: false,
   cols: 1,
   paragraph_indent: 1em,
-  // Fonts & Language
-  text_font: ("Charter", "Linux Libertine", "serif"),
-  code_font: ("MonoLisa", "JetBrains Mono", "Fira Code", "Cascadia Code", "monospace"),
-  math_font: ("Erewhon Math", "New Computer Modern Math", "serif"),
+  justify: true,
+
+  text_font: ("Charter", "XCharter", "Libertinus Serif", "Linux Libertine", "Source Serif 4", "Georgia", "serif"),
+  code_font: ("IoskeleyMono Nerd Font", "MonoLisa", "JetBrains Mono", "Fira Code", "Cascadia Code", "monospace"),
+  math_font: ("Erewhon Math", "Libertinus Math", "STIX Two Math", "New Computer Modern Math", "Cambria Math", "serif"),
   equation_size: 1.1em,
   text_lang: "en",
-  // Numbering & References
+
   heading_numbering: "1.1",
   show_prefix: true,
   show_numbering: true,
   h1_prefix: "lecture",
   math_equation_numbering: false,
   bibliography_file: none,
-  bibstyle: "apa",
-  // Styling
+  bibstyle: "ieee",
+
   fancy_header: true,
-  accent: "#262626",
-  colors: (
-    theorem: rgb("#5d2f8e"),
-    definition: rgb("#1a5fb4"),
-    example: rgb("#26a269"),
-    important: rgb("#c01c28"),
-    note: rgb("#626262"),
-    proof: rgb("#000000"),
-  ),
-  // Table of Contents & Lists
+  accent: "#222354",
+
   toc: true,
   toc_depth: 3,
   lof: false,
@@ -58,92 +49,49 @@
   lol: false,
   body,
 ) = {
-  // ====================
-  // Initial Setup
-  // ====================
-  show: thmrules
-
-  // Determine the accent color
   let accent_color = rgb(accent)
+  let text_color = rgb(text_color)
 
-  // Construct a string title
-  let str_title = title
-
-  // ====================
-  // Global Set Rules
-  // ====================
-
-  // Set document metadata
-  set document(title: str_title, author: authors.map(author => author.name))
-
-  // Configure page layout and header
-  set page(
-    paper: paper_size,
-    fill: rgb(paper_color),
-    columns: cols,
-    flipped: landscape,
-    numbering: "1",
-    number-align: center,
-    header: context {
-      if not fancy_header { return }
-      let elems = query(selector(heading.where(level: 1)).before(here()))
-      let head_title = text(fill: accent_color, {
-        if short_title != none { short_title } else { str_title }
-      })
-
-      if elems.len() == 0 {
-        align(right, "")
-      } else {
-        let current_heading = elems.last()
-        // Display title on left, current heading on right
-        (
-          head_title
-            + h(1fr)
-            + emph(
-              if current_heading.numbering != none {
-                let prefix = if show_prefix { get_translation(translated_terms.at(h1_prefix)) + " " } else { "" }
-                let numbering = if show_numbering { counter(heading.where(level: 1)).display("1: ") } else { "" }
-                prefix + numbering + current_heading.body
-              } else {
-                current_heading.body
-              },
-            )
-        )
-        v(-6pt) // Adjust vertical position for the line
-        line(length: 100%, stroke: (thickness: 1pt, paint: accent_color, dash: "solid"))
-      }
-    },
+  // Show and Set
+  show: thmrules
+  show: codly-init.with()
+  codly(
+    fill: rgb("#fafafa"),
+    zebra-fill: none,
+    number-format: n => text(fill: rgb("#9b9fa6"), size: 0.8em)[#n],
+    languages: codly-languages,
   )
-
-  // Set fonts, language, and paragraph style
-  set text(font: text_font, size: 10.5pt, lang: text_lang, fill: rgb(text_color))
-
-  set par(justify: true, linebreaks: "optimized", first-line-indent: paragraph_indent)
-
-  // Set numbering formats
-  set heading(numbering: if show_numbering { heading_numbering })
-
-
-  // Configure level 1 heading numbering format
-  show selector(heading.where(level: 1)): set heading(numbering: (..nums) => (
-    if show_prefix {
-      (
-        get_translation(translated_terms.at(h1_prefix))
-          + [#if show_numbering { " " + nums.pos().map(str).join(".") }]
-          + ":"
-      )
+  show heading: it => {
+    it
+    v(15pt, weak: true)
+  }
+  show link: it => {
+    let author_names = authors.map(author => author.name)
+    if it.body.has("text") and it.body.text in author_names {
+      it
     } else {
-      if show_numbering { heading_numbering }
+      underline(stroke: (dash: "loosely-dash-dotted"), offset: 2pt, text(fill: accent_color, it))
     }
+  }
+  show raw: set text(font: code_font)
+  show raw.where(block: false): it => box(
+    fill: luma(250),
+    stroke: 0.5pt + luma(200),
+    inset: (x: 3pt),
+    outset: (y: 3pt),
+    radius: 2pt,
+  )[#it]
+
+  // Level-1 heading numbering format
+  show selector(heading.where(level: 1)): set heading(numbering: (..nums) => (
+    if show_prefix and show_numbering {
+      get_translation(translated_terms.at(h1_prefix)) + { " " + nums.pos().map(str).join(".") } + ":"
+    } else if show_prefix {
+      get_translation(translated_terms.at(h1_prefix)) + ":"
+    } else if show_numbering { " " + nums.pos().map(str).join(".") + ":" } else { "—" }
   ))
 
-  // Disable numbering for specific major headings (e.g., Contents, References)
-  show selector(heading.where(body: [#get_translation(translated_terms.contents)]))
-    .or(heading.where(body: [#get_translation(translated_terms.lof)]))
-    .or(heading.where(body: [#get_translation(translated_terms.lot)]))
-    .or(heading.where(body: [#get_translation(translated_terms.lol)]))
-    .or(heading.where(body: [#get_translation(translated_terms.references)])): set heading(numbering: none)
-
+  show math.equation: set text(font: math_font, size: equation_size)
   // Context-aware equation numbering: (Chapter.Equation)
   set math.equation(numbering: (..nums) => {
     if math_equation_numbering {
@@ -159,81 +107,55 @@
     }
   })
 
-  // Reset equation counter on level 1 headings
   show heading.where(level: 1): it => {
     counter(math.equation).update(0)
     it
   }
 
-  // Configure list indentation
   set enum(indent: 10pt, body-indent: 6pt)
   set list(indent: 10pt, body-indent: 6pt)
+  set text(font: text_font, size: 10.5pt, lang: text_lang, fill: text_color)
+  set par(justify: justify, linebreaks: "optimized", first-line-indent: paragraph_indent)
+  set document(title: title, author: authors.map(author => author.name))
+  set heading(numbering: if show_numbering { heading_numbering })
+  set page(
+    paper: paper_size,
+    fill: rgb(paper_color),
+    columns: cols,
+    flipped: landscape,
+    numbering: "1",
+    number-align: center,
+    header: context {
+      if not fancy_header { return }
+      if counter(page).get().first() == 1 { return none }
 
-  // ====================
-  // Global Show Rules
-  // ====================
+      let elems = query(selector(heading.where(level: 1)).before(here()))
 
-  // Style headings
-  show heading: it => {
-    it
-    v(12pt, weak: true)
-  }
+      if elems.len() == 0 { return none }
 
-  // Style math equations and fonts
-  show math.equation: set text(font: math_font, size: equation_size)
-  show math.equation: eq => {
-    set block(spacing: 1.5em)
-    eq
-  }
+      let current_heading = elems.last()
+      let head_title = text(fill: accent_color, {
+        if short_title != none { short_title } else { title }
+      })
 
-  // Style inline and block code
-  show raw: set text(font: code_font)
-  show raw.where(block: false): it => box(
-    fill: luma(245),
-    stroke: 0.5pt + luma(200),
-    inset: (x: 3pt),
-    outset: (y: 3pt),
-    radius: 2pt,
-  )[#it]
+      (
+        head_title
+          + h(1fr)
+          + emph(
+            if current_heading.numbering != none and show_numbering {
+              let prefix = if show_prefix { get_translation(translated_terms.at(h1_prefix)) + " " } else { "" }
+              let numbering = if show_numbering { counter(heading.where(level: 1)).display("1 — ") } else { "" }
+              text(fill: accent_color, prefix + numbering + current_heading.body)
+            } else { current_heading.body },
+          )
+      )
+      v(-6pt)
+      line(length: 100%, stroke: (thickness: 0.6pt, paint: accent_color, dash: "solid"))
+    },
+  )
 
-  show raw.where(block: true): it => {
-    block(
-      width: 100%,
-      fill: luma(252),
-      stroke: 0.5pt + luma(230),
-      radius: 4pt,
-      inset: 1em,
-      clip: true,
-    )[
-      #if it.has("lang") [
-        #set text(size: 0.7em, fill: accent_color.lighten(20%))
-        #place(top + right, dx: 0.5em, dy: -0.5em)[#strong(upper(it.lang))]
-      ]
-      #it
-    ]
-  }
-
-  // Style links, except for author names
-  show link: it => {
-    let author_names = authors.map(author => author.name)
-    if it.body.has("text") and it.body.text in author_names {
-      it // Display author links as-is
-    } else {
-      // Other links are underlined, dotted, offset, and colored
-      underline(stroke: (dash: "densely-dotted"), offset: 2pt, text(fill: accent_color, it))
-    }
-  }
-
-  // Style outline entries (Table of Contents)
-  show outline.entry: it => {
-    text(fill: accent_color, it)
-  }
-
-  // ====================
   // Document Structure
-  // ====================
 
-  // --- Title Page ---
   align(center, [
     #set text(18pt, weight: "bold")
     #title
@@ -252,14 +174,12 @@
       #description
     ])
   }
-  v(18pt, weak: true)
 
   if abstract != none {
     pad(x: 2em, [
       #set text(size: 0.9em)
       #text(weight: "bold")[Abstract:] #abstract
     ])
-    v(12pt, weak: true)
   }
 
   if authors.len() > 0 {
@@ -272,17 +192,14 @@
             } else { author.name }
           ]
         })
-        .join(", ", last: if authors.len() > 2 { ", and" } else { " and" })
+        .join(", ", last: if authors.len() > 2 { ", and" } else { "and" })
     }))
   }
-  v(6pt, weak: true)
 
-  // Date
   let create_date(date, label) = {
     text(
       size: 11pt,
       [*#get_translation(translated_terms.at(label))*] + ": " + date.display("[month] / [day] / [year repr:full]"),
-      fill: accent_color,
     )
   }
 
@@ -303,66 +220,42 @@
     ]
   }
 
-  v(18pt, weak: true)
-
-  // --- Table of Contents and Lists ---
-
-  if toc or lof or lot or lol {
-    if toc {
-      heading(level: 1, outlined: false)[#get_translation(translated_terms.contents)]
-      outline(indent: auto, title: none, depth: toc_depth)
-    }
-    show heading.where(level: 1): set text(size: 0.9em)
-    if lof {
-      v(4pt)
-      heading(level: 1)[#get_translation(translated_terms.lof)]
-      outline(indent: auto, title: none, target: figure.where(kind: image))
-    }
-    if lot {
-      v(4pt)
-      heading(level: 1)[#get_translation(translated_terms.lot)]
-      outline(indent: auto, title: none, target: figure.where(kind: table))
-    }
-    if lol {
-      v(4pt)
-      heading(level: 1)[#get_translation(translated_terms.lol)]
-      outline(indent: auto, title: none, target: figure.where(kind: raw))
-    }
+  if toc {
+    heading(level: 1, outlined: false, numbering: none)[#get_translation(translated_terms.contents)]
+    outline(indent: auto, title: none, depth: toc_depth)
   }
 
-  v(2em, weak: true)
+  if lof {
+    v(4pt)
+    heading(level: 1, outlined: false, numbering: none)[#get_translation(translated_terms.lof)]
+    outline(indent: auto, title: none, target: figure.where(kind: image))
+  }
 
-  // --- Main Body ---
+  if lot {
+    v(4pt)
+    heading(level: 1, outlined: false, numbering: none)[#get_translation(translated_terms.lot)]
+    outline(indent: auto, title: none, target: figure.where(kind: table))
+  }
+
+  if lol {
+    v(4pt)
+    heading(level: 1, outlined: false, numbering: none)[#get_translation(translated_terms.lol)]
+    outline(indent: auto, title: none, target: figure.where(kind: raw))
+  }
+
+  v(15pt)
+
   body
 
-  // --- Bibliography ---
   if bibliography_file != none {
-    v(24pt, weak: true)
-    align(center)[#v(0.5em) * \* #sym.space.quad \* #sym.space.quad \* * #v(0.5em)]
+    align(center)[#v(0.5em) * — #sym.space.quad —  #sym.space.quad —  * #v(0.5em)]
     bibliography(bibliography_file, title: [#get_translation(translated_terms.references)], style: bibstyle)
   }
 }
 
-// =============================================================
-// Boxes, Rules, and Environments
-// =============================================================
-
-// Default numbering settings for theorem environments
+// Boxes
 #let boxnumbering = "1.1.1.1.1.1"
 #let boxcounting = "heading"
-
-// A math box command
-#let mathbox(content, higher: false) = {
-  box(
-    stroke: 0.5pt,
-    inset: (x: 2pt, y: 1pt),
-    outset: (x: 1pt, y: if higher { 8pt } else { 3pt }),
-    baseline: if higher { 6pt } else { 1pt },
-    if higher { $display(#content)$ } else { $#content$ },
-  )
-}
-
-// --- Theorem-like Environments ---
 
 // General box
 #let box_thm(
@@ -380,105 +273,119 @@
       breakable: breakable,
       frame: (
         border-color: base-color,
-        body-color: base-color.lighten(95%),
-        footer-color: base-color.lighten(95%),
-        radius: 0pt,
-        thickness: 0pt,
-      ),
-      title-style: (
-        color: base-color,
+        body-color: base-color.lighten(96%),
+        thickness: (left: 2pt, right: 2pt, rest: 0pt),
+        radius: (right: 3pt, left: 3pt),
+        inset: (x: 12pt, y: 12pt),
       ),
       footer-style: (
         color: base-color,
       ),
       ..args.named(),
       [
-        #set text(fill: base-color)
-        *#upper(title) #if numbered { [#number] } #if name != none { [(#name)] } *]
-        + body,
+        #text(fill: base-color, weight: "bold")[#title]
+        #if numbered [
+          #text(fill: base-color, weight: "bold")[ #number]
+        ]
+        #if name != none [
+          #text(fill: base-color.darken(20%), style: "italic")[ (#name)]
+        ]
+        #text(fill: base-color, weight: "bold")[.]
+        #h(0.4em)
+        #body
+      ],
     )
   },
 ).with(numbering: boxnumbering)
 
-// Core logical structures
+#let color-purple = rgb("#9a77cf")
+#let color-pink = rgb("#ff71ce")
+#let color-blue = rgb("#118dc3")
+#let color-green = rgb("#1da912")
+#let color-orange = rgb("#ee9025")
+#let color-yellow = rgb("#eea825")
+#let color-red = rgb("#e05661")
+#let color-gray = rgb("#9b9fa6")
+
+// Particular boxes
 #let theorem = box_thm(
   "theorem",
   get_translation(translated_terms.theorem),
-  rgb("#5d2f8e"),
+  color-purple,
 )
 
 #let corollary = box_thm(
   "corollary",
   get_translation(translated_terms.corollary),
-  rgb("#5d2f8e"),
+  color-purple,
 )
 
 #let lemma = box_thm(
   "lemma",
   get_translation(translated_terms.lemma),
-  rgb("#5d2f8e"),
+  color-purple,
 )
 
 #let proposition = box_thm(
   "proposition",
   get_translation(translated_terms.proposition),
-  rgb("#5d2f8e"),
+  color-purple,
 )
 
 #let hypothesis = box_thm(
   "hypothesis",
   get_translation(translated_terms.hypothesis),
-  rgb("#5d2f8e"),
+  color-pink,
 )
 
 #let definition = box_thm(
   "definition",
   get_translation(translated_terms.definition),
-  rgb("#1a5fb4"),
+  color-blue,
 )
 
 #let example = box_thm(
   "example",
   get_translation(translated_terms.example),
-  rgb("#26a269"),
+  color-green,
 )
 
 #let note = box_thm(
   "note",
   get_translation(translated_terms.note),
-  rgb("#626262"),
+  color-yellow,
 )
 
 #let attention = box_thm(
   "attention",
   get_translation(translated_terms.attention),
-  rgb("#c01c28"),
+  color-red,
 )
 
 #let important = box_thm(
   "important",
   get_translation(translated_terms.important),
-  rgb("#c01c28"),
+  color-red,
 )
 
 #let exercise = box_thm(
   "exercise",
   get_translation(translated_terms.exercise),
-  rgb("#e66100"),
+  color-orange,
 )
 
 #let tip = box_thm(
   "tip",
   get_translation(translated_terms.tip),
   numbered: false,
-  rgb("#26a269"),
+  color-pink,
 )
 
 #let remark = box_thm(
   "remark",
   get_translation(translated_terms.remark),
   numbered: false,
-  rgb("#626262"),
+  color-gray,
 )
 
 // Miscellaneous
@@ -511,9 +418,7 @@
 ).with(numbering: none)
 
 
-// =============================================================
 // Useful functions
-// =============================================================
 
 // A minimal box to write indent text
 #let indent(body) = [
@@ -556,13 +461,12 @@
 }
 
 // A math box to emphasize an equation
-#let mathbox(content) = {
+#let mathbox(content, higher: false) = {
   box(
     stroke: 0.5pt,
-    inset: (x: 18pt, y: 5pt),
-    outset: (x: 1pt, y: 8pt),
-    baseline: 30pt,
-    [$display(#content)$ ],
+    inset: (x: 6pt, y: 3pt),
+    outset: (x: 2pt, y: if higher { 8pt } else { 4pt }),
+    if higher { $display(#content)$ } else { $#content$ },
   )
 }
 
