@@ -9,7 +9,7 @@
 
     let localized_string = translations.at(current_lang, default: translations.at("en", default: ""))
     if localized_string == "" and "en" in translations {
-        localized_string = translations.at("en")
+      localized_string = translations.at("en")
     }
     return localized_string
   }
@@ -58,7 +58,7 @@
   ),
   attention: (
     en: "Attention",
-    es: "Atención"
+    es: "Atención",
   ),
   axiom: (
     en: "Axiom",
@@ -90,7 +90,7 @@
   ),
   hypothesis: (
     en: "Hypothesis",
-    es: "Hipótesis"
+    es: "Hipótesis",
   ),
   important: (
     en: "Important",
@@ -126,7 +126,7 @@
   ),
   quote: (
     en: "Quote",
-    es: "Cita"
+    es: "Cita",
   ),
   remark: (
     en: "Remark",
@@ -147,5 +147,17 @@
   warning: (
     en: "Warning",
     es: "Advertencia",
+  ),
+  topic: (
+    en: "Topic",
+    es: "Tema",
+  ),
+  unit: (
+    en: "Unit",
+    es: "Unidad",
+  ),
+  question: (
+    en: "Question",
+    es: "Pregunta",
   ),
 )
