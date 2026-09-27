@@ -5,6 +5,7 @@
 #let color-purple = rgb("#9a77cf")
 #let color-pink = rgb("#ff71ce")
 #let color-blue = rgb("#118dc3")
+#let color-cyan = rgb("#56b6c2")
 #let color-green = rgb("#1da912")
 #let color-orange = rgb("#ee9025")
 #let color-yellow = rgb("#eea825")
@@ -60,6 +61,8 @@
 #let attention = box_thm("attention", get_translation(translated_terms.attention), color-red)
 #let important = box_thm("important", get_translation(translated_terms.important), color-red)
 #let exercise = box_thm("exercise", get_translation(translated_terms.exercise), color-orange)
+#let question = box_thm("question", get_translation(translated_terms.question), color-blue)
+#let solution = box_thm("solution", get_translation(translated_terms.solution), numbered: false, color-cyan)
 #let tip = box_thm("tip", get_translation(translated_terms.tip), numbered: false, color-pink)
 #let remark = box_thm("remark", get_translation(translated_terms.remark), numbered: false, color-gray)
 #let proof = thmenv(
