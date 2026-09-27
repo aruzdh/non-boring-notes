@@ -32,8 +32,10 @@
 
 #let maketitle(title, subtitle: "", position: center) = [
   #align(position)[
-    #text(18pt)[ = #title ]
-    #text(13pt, style: "italic")[ #subtitle ]
+    #text(22pt, weight: "bold")[#title]
+    #if subtitle != "" [
+      \ #text(13pt, style: "italic")[#subtitle]
+    ]
   ]
 ]
 
