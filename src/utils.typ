@@ -60,3 +60,27 @@
 }
 
 #let mathnote(content) = align(center)[(#content)]
+
+#let set_min_config(
+  title: "",
+  subtitle: "",
+  text_lang: "en",
+  text_font: ("Charter", "XCharter", "Libertinus Serif", "Linux Libertine", "Source Serif 4", "Georgia", "serif"),
+  code_font: ("IoskeleyMono Nerd Font", "MonoLisa", "JetBrains Mono", "Fira Code", "Cascadia Code", "monospace"),
+  math_font: ("Erewhon Math", "Libertinus Math", "STIX Two Math", "New Computer Modern Math", "Cambria Math", "serif"),
+  font_size: 11.5pt,
+  list_numbering: "1.a.i.",
+  paragraph_indent: 1em,
+  body,
+) = {
+  set text(lang: text_lang, size: font_size, font: text_font)
+  show math.equation: set text(font: math_font)
+  show raw: set text(font: code_font)
+  set enum(numbering: list_numbering)
+  set par(linebreaks: "optimized", first-line-indent: paragraph_indent)
+
+  if title != "" { maketitle(title, subtitle: subtitle) }
+
+  body
+}
+
