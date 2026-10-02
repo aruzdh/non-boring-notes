@@ -79,7 +79,10 @@
   set enum(numbering: list_numbering)
   set par(linebreaks: "optimized", first-line-indent: paragraph_indent)
 
-  if title != "" { maketitle(title, subtitle: subtitle) }
+  if title != "" {
+    set document(title: title)
+    maketitle(title, subtitle: subtitle)
+  }
 
   body
 }
