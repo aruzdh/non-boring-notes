@@ -192,10 +192,18 @@
     }))
   }
 
+  let date_formats = (
+    de: "[day].[month].[year]",
+    en: "[month] / [day] / [year repr:full]",
+    es: "[day]/[month]/[year]",
+  )
+
   let create_date(date, label) = {
     text(
       size: 11pt,
-      [*#get_translation(translated_terms.at(label))*] + ": " + date.display("[month] / [day] / [year repr:full]"),
+      [*#get_translation(translated_terms.at(label))*]
+        + ": "
+        + context date.display(date_formats.at(text.lang, default: date_formats.en)),
     )
   }
 
