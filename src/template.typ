@@ -174,22 +174,20 @@
   if abstract != none {
     pad(x: 2em, [
       #set text(size: 0.9em)
-      #text(weight: "bold")[Abstract:] #abstract
+      #text(weight: "bold")[#get_translation(translated_terms.abstract):] #abstract
     ])
   }
 
   if authors.len() > 0 {
-    align(center, box(inset: (y: 10pt), {
-      authors
-        .map(author => {
-          text(11pt, weight: "semibold")[
-            #if "link" in author {
-              link(author.link)[#author.name]
-            } else { author.name }
-          ]
-        })
-        .join(", ", last: if authors.len() > 2 { ", and" } else { "and" })
-    }))
+    align(center, box(inset: (y: 10pt), join_with_and(
+      authors.map(author => {
+        text(11pt, weight: "semibold")[
+          #if "link" in author {
+            link(author.link)[#author.name]
+          } else { author.name }
+        ]
+      }),
+    )))
   }
 
   let date_formats = (

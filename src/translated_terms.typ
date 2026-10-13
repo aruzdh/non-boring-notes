@@ -61,6 +61,16 @@
     en: "Last updated",
     es: "Última actualización",
   ),
+  abstract: (
+    de: "Zusammenfassung",
+    en: "Abstract",
+    es: "Resumen",
+  ),
+  conjunction: (
+    de: "und",
+    en: "and",
+    es: "y",
+  ),
   assumption: (
     de: "Annahme",
     en: "Assumption",
@@ -197,3 +207,12 @@
     es: "Pregunta",
   ),
 )
+
+// Joins items with commas and a translated "and" before the last one.
+// Only English uses a serial comma ("A, B, and C").
+#let join_with_and(items) = context {
+  let lang = if text.lang in translated_terms.conjunction { text.lang } else { "en" }
+  let conjunction = translated_terms.conjunction.at(lang)
+  let last = if lang == "en" and items.len() > 2 { ", " + conjunction } else { conjunction }
+  items.join(", ", last: last)
+}
