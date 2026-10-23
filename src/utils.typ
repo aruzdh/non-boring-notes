@@ -82,6 +82,13 @@
   set enum(numbering: list_numbering)
   set par(linebreaks: "optimized", first-line-indent: paragraph_indent)
 
+  show heading: it => {
+    if it.numbering == none {
+      counter(heading).step(level: it.level)
+    }
+    it
+  }
+
   if title != "" {
     set document(title: title)
     maketitle(title, subtitle: subtitle)
