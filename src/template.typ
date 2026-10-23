@@ -174,28 +174,34 @@
   if abstract != none {
     pad(x: 2em, [
       #set text(size: 0.9em)
-      #text(weight: "bold")[Abstract:] #abstract
+      #text(weight: "bold")[#get_translation(translated_terms.abstract):] #abstract
     ])
   }
 
   if authors.len() > 0 {
-    align(center, box(inset: (y: 10pt), {
-      authors
-        .map(author => {
-          text(11pt, weight: "semibold")[
-            #if "link" in author {
-              link(author.link)[#author.name]
-            } else { author.name }
-          ]
-        })
-        .join(", ", last: if authors.len() > 2 { ", and" } else { "and" })
-    }))
+    align(center, box(inset: (y: 10pt), join_with_and(
+      authors.map(author => {
+        text(11pt, weight: "semibold")[
+          #if "link" in author {
+            link(author.link)[#author.name]
+          } else { author.name }
+        ]
+      }),
+    )))
   }
+
+  let date_formats = (
+    de: "[day].[month].[year]",
+    en: "[month] / [day] / [year repr:full]",
+    es: "[day]/[month]/[year]",
+  )
 
   let create_date(date, label) = {
     text(
       size: 11pt,
-      [*#get_translation(translated_terms.at(label))*] + ": " + date.display("[month] / [day] / [year repr:full]"),
+      [*#get_translation(translated_terms.at(label))*]
+        + ": "
+        + context date.display(date_formats.at(text.lang, default: date_formats.en)),
     )
   }
 
