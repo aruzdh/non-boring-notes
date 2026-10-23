@@ -12,7 +12,7 @@ You can initialize a project directly from the CLI:
 typst init @preview/non-boring-notes
 ```
 
-Or copy this minimal template into your existing document:
+Or copy this template into your existing document:
 
 ```typst
 #import "@preview/non-boring-notes:0.2.0": *
@@ -29,7 +29,7 @@ Or copy this minimal template into your existing document:
   authors: (
     (
       name: "Your Name",
-      link: "[https://example.com](https://example.com)",
+      link: "https://example.com",
     ),
   ),
   paper_size: "us-letter",
@@ -43,73 +43,45 @@ Or copy this minimal template into your existing document:
 Start writing your notes here...
 ```
 
-If you want some inspiration, an example using all the features can be found in
-[examples/showcase.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/examples/showcase.typ).
-
-For a simpler ready-to-go configuration for assignments, this is another option:
+For a lighter setup for assignments and short documents, use
+`minimal_template` instead. It styles fonts, enumerated lists, and theorem-like
+boxes without adding a separate title page, page header, table of contents, or
+bibliography:
 
 ```typst
 #import "@preview/non-boring-notes:0.2.0": *
 
-#show: set_min_config.with(
+#show: minimal_template.with(
   title: [Document Title],
   subtitle: [Optional Subtitle],
 )
 
-Start writing your notes here...
+= Exercise 1
+
+Start writing here...
 ```
 
-## Configuration
+A longer example using most of the features is available in
+[examples/showcase.typ](https://github.com/aruzdh/non-boring-notes/blob/main/examples/showcase.typ).
 
-Configure the `template` function at the top of your document to suit your needs:
+## Documentation
 
-| Parameter | Type | Description |
-| :--- | :--- | :--- |
-| `title` | `content` | Title of the document. |
-| `subtitle` | `content` | Subtitle. |
-| `short_title` | `content` | Used in header. |
-| `authors` | `array` | Array of `(name: "", link: "")` dictionaries. |
-| `creation_date` | `datetime` | Document creation date. |
-| `abstract` | `content` | Brief document abstract or summary. |
-| `description` | `content` | Brief document description. |
-| `accent` | `color` | Primary accent color for headers and links. |
-| `paper_size` | `string` | Page format (e.g., `"a4"`, `"us-letter"`). |
-| `cols` | `integer` | Number of columns in the document layout. |
-| `h1_prefix` | `string` | Prefix for top-level headings (e.g., `"lecture"`). |
-| `text_lang` | `string` | Language code: `"en"` (English) or `"es"` (Spanish). |
-
-All the parameters, alongside their default values, can be found in the `template`
-function in [src/template.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/template.typ).
+| Page | What it covers |
+| :--- | :--- |
+| [Template reference](https://github.com/aruzdh/non-boring-notes/blob/main/docs/template.md) | Every `template` parameter, defaults, recipes, and common pitfalls. |
+| [Theorem-like environments](https://github.com/aruzdh/non-boring-notes/blob/main/docs/theorem-like-envs.md) | All 16 environments, numbering, labels, and references. |
+| [Utilities](https://github.com/aruzdh/non-boring-notes/blob/main/docs/utilities.md) | `indent`, `quote-box`, `mathbox`, and the bundled fletcher, cetz, and unify packages. |
 
 ## Features
 
-### Theorem-like Environments
+- 16 pre-styled theorem-like environments for theorems, definitions, proofs,
+  exercises, notes, and more.
+- Localized labels, dates, and headers in English, Spanish, German, and Italian.
+- Configurable page size, orientation, columns, colors, and fonts.
+- Automatic page headers, table of contents, and lists of figures and tables.
+- Built-in bibliography support and syntax-highlighted code blocks.
+- Re-exported drawing and unit typesetting packages: fletcher, cetz, and unify.
 
-Includes pre-styled, color-coded boxes out of the box:
+## License
 
-```typst
-#definition("Metric Space")[
-  A metric space is a set $M$ together with a metric $d$.
-]
-
-#theorem("Banach Fixed-Point Theorem")[
-  Let $(X, d)$ be a complete metric space...
-]
-
-#proof[
-  The proof proceeds by contraction...
-]
-```
-
-Some available environments include: `theorem`, `lemma`, `corollary`, `proposition`,
-`hypothesis`, `definition`, `proof`, `important`, `tip`, and `exercise`.
-
-All the theorem-like boxes can be found in the in [src/boxes.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/boxes.typ)
-
-### Multi-language Support
-
-Switch between English and Spanish seamlessly. All environment labels (e.g.,
-*Theorem* vs. *Teorema*) and headers (e.g., *Contents* vs. *Contenido*) update
-automatically based on `text_lang`.
-
-The full list of labels can be found in [src/translated_terms.typ](https://github.com/aruzdh/non-boring-notes/blob/311756828cf77b5c309ebc8d048e9156ccdbeab3/src/translated_terms.typ)
+Released under the [MIT License](https://github.com/aruzdh/non-boring-notes/blob/main/LICENSE).
