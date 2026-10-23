@@ -74,11 +74,13 @@
     de: "Zusammenfassung",
     en: "Abstract",
     es: "Resumen",
+    it: "Sommario",
   ),
   conjunction: (
     de: "und",
     en: "and",
     es: "y",
+    it: "e",
   ),
   assumption: (
     de: "Annahme",

@@ -194,6 +194,7 @@
     de: "[day].[month].[year]",
     en: "[month] / [day] / [year repr:full]",
     es: "[day]/[month]/[year]",
+    it: "[day]/[month]/[year]",
   )
 
   let create_date(date, label) = {
