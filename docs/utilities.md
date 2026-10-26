@@ -8,10 +8,10 @@ the package exports a handful of small helpers from
 package entry point:
 
 ```typst
-#import "@preview/non-boring-notes:0.2.0": *
+#import "@preview/non-boring-notes:0.3.0": *
 ```
 
-This page documents **v0.2.0**.
+This page documents **v0.3.0**.
 
 ## `indent`
 
@@ -141,7 +141,7 @@ up horizontal space or shift the equation. `side` controls the direction in
 which the content grows (`left`, `center`, or `right`).
 
 ```typst
-$ f(x) = x^2 #smash("parabola", side: right) $
+f(x) = x^2 #smash("parabola", side: right) $
 ```
 
 Because the box has zero width, the annotation can overlap neighboring material.
@@ -215,9 +215,9 @@ See the [CeTZ manual](https://cetz-package.github.io/docs) for the drawing API.
 All public `unify` functions are imported:
 
 ```typst
-$ num("-1.32865 +- 0.50273e-6") $
+num("-1.32865 +- 0.50273e-6") $
 
-$ qty("1.3 + 1.2 - 0.3e3", "erg/cm^2/s") $
+qty("1.3 + 1.2 - 0.3e3", "erg/cm^2/s") $
 ```
 
 See the [unify documentation](https://typst.app/universe/package/unify) for

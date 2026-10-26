@@ -1,4 +1,4 @@
-#import "@preview/non-boring-notes:0.2.0": *
+#import "@preview/non-boring-notes:0.3.0": *
 
 #show: template.with(
   title: [Non-boring notes],

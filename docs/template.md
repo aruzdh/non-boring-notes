@@ -6,12 +6,12 @@
 sets up the page, styles headings and code, adds the outlines, and places the
 bibliography at the end.
 
-This page documents **v0.2.0**. Every parameter is optional except `body`.
+This page documents **v0.3.0**. Every parameter is optional except `body`.
 
 ## Quick start
 
 ```typst
-#import "@preview/non-boring-notes:0.2.0": *
+#import "@preview/non-boring-notes:0.3.0": *
 
 #show: template.with(
   title: [Introduction to Analysis],
@@ -248,7 +248,7 @@ The outlines appear after the dates and before the body. Each one gets an
 unnumbered, localized heading. `lof` and `lot` list standard Typst figures of
 kind `image` and `table`; `lol` targets figures of kind `raw`.
 
-> **Known limitation in 0.2.0:** code blocks styled by `codly` are not figures of
+> **Known limitation in 0.3.0:** code blocks styled by `codly` are not figures of
 > kind `raw`, so `lol: true` usually renders an empty list of listings.
 
 ## Body
@@ -268,7 +268,7 @@ abstract, date block, or bibliography. It does apply the theorem-like environmen
 the boxes work.
 
 ```typst
-#import "@preview/non-boring-notes:0.2.0": *
+#import "@preview/non-boring-notes:0.3.0": *
 
 #show: minimal_template.with(
   title: [Assignment 1],
@@ -410,7 +410,7 @@ level-1 heading.
 - **Bibliography paths are resolved inside the package.** Prefer
   `path("/references.bib")` over `"references.bib"`.
 - **`lol` is usually empty.** `codly` code blocks are not `raw` figures, so the
-  list of listings does not pick them up in 0.2.0.
+  list of listings does not pick them up in 0.3.0.
 - **Disabling both heading flags leaves an em dash.** With `show_prefix: false`
   and `show_numbering: false`, a level-1 heading renders as `— Introduction`.
 - **`show_numbering` does not unnumber theorem-like boxes.** Their counters keep

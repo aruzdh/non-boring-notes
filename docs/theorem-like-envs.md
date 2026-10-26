@@ -9,13 +9,13 @@ unboxed variant. The boxes are built on
 [`showybox`](https://typst.app/universe/package/showybox), and can break across
 pages.
 
-This page documents **v0.2.0**. All environments are exported by the package
-entry point, so a single `#import "@preview/non-boring-notes:0.2.0": *` is enough.
+This page documents **v0.3.0**. All environments are exported by the package
+entry point, so a single `#import "@preview/non-boring-notes:0.3.0": *` is enough.
 
 ## Quick example
 
 ```typst
-#import "@preview/non-boring-notes:0.2.0": *
+#import "@preview/non-boring-notes:0.3.0": *
 
 #show: template.with(title: [Real Analysis])
 
@@ -93,7 +93,7 @@ you build a document without `template` or `minimal_template`, either number
 your headings or step the heading counter yourself. See the
 [template reference](template.md#minimal-template).
 
-In 0.2.0 the numbering is fixed per environment: there is no per-call
+In 0.3.0 the numbering is fixed per environment: there is no per-call
 `numbered: false` switch. Use the unnumbered environments (`solution`, `tip`,
 `remark`, `proof`) when a number is not wanted.
 
@@ -234,7 +234,7 @@ the optional name).
 
 ## Colors and customization
 
-In 0.2.0 the palette is fixed in [`src/boxes.typ`](../src/boxes.typ):
+In 0.3.0 the palette is fixed in [`src/boxes.typ`](../src/boxes.typ):
 
 | Name | Hex |
 | :--- | :--- |
@@ -250,7 +250,7 @@ In 0.2.0 the palette is fixed in [`src/boxes.typ`](../src/boxes.typ):
 
 The `accent` option of `template` does **not** change these colors; it only
 affects the page header, links, and the header rule. There is no public option
-to recolor an individual environment in 0.2.0. `box_thm`, the internal helper
+to recolor an individual environment in 0.3.0. `box_thm`, the internal helper
 that builds the boxes, is not exported from the package entry point. If you need
 a different palette, change the color constants in `src/boxes.typ` in a local
 copy of the template.
