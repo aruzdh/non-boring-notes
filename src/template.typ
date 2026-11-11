@@ -24,6 +24,7 @@
   text_font: ("Charter", "XCharter", "Libertinus Serif", "Linux Libertine", "Source Serif 4", "Georgia", "serif"),
   code_font: ("IoskeleyMono Nerd Font", "MonoLisa", "JetBrains Mono", "Fira Code", "Cascadia Code", "monospace"),
   math_font: ("Erewhon Math", "Libertinus Math", "STIX Two Math", "New Computer Modern Math", "Cambria Math", "serif"),
+  font_size: 10.5pt,
   equation_size: 1.1em,
   text_lang: "en",
 
@@ -110,7 +111,7 @@
 
   set enum(indent: 10pt, body-indent: 6pt)
   set list(indent: 10pt, body-indent: 6pt)
-  set text(font: text_font, size: 10.5pt, lang: text_lang, fill: text_color)
+  set text(font: text_font, size: font_size, lang: text_lang, fill: text_color)
   set par(justify: justify, linebreaks: "optimized", first-line-indent: paragraph_indent)
   set document(title: title, author: authors.map(author => author.name))
   set heading(numbering: if show_numbering { heading_numbering })
