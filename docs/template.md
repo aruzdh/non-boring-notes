@@ -118,6 +118,7 @@ Page numbers are centered at the bottom and start at `1`.
 | `text_font` | `array` | font stack | Font families for body text, in fallback order. |
 | `code_font` | `array` | font stack | Font families for inline and block code. |
 | `math_font` | `array` | font stack | Font families for equations. |
+| `font_size` | `length` | `10.5pt` | Body font size. |
 | `equation_size` | `length` | `1.1em` | Font size for equations relative to body text. |
 | `text_lang` | `string` | `"en"` | Language used for hyphenation, labels, and dates. |
 
