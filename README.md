@@ -15,7 +15,7 @@ typst init @preview/non-boring-notes
 Or copy this template into your existing document:
 
 ```typst
-#import "@preview/non-boring-notes:0.3.0": *
+#import "@preview/non-boring-notes:0.3.1": *
 
 #show: template.with(
   title: [Document Title],
@@ -49,7 +49,7 @@ boxes without adding a separate title page, page header, table of contents, or
 bibliography:
 
 ```typst
-#import "@preview/non-boring-notes:0.3.0": *
+#import "@preview/non-boring-notes:0.3.1": *
 
 #show: minimal_template.with(
   title: [Document Title],
